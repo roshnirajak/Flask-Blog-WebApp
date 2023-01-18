@@ -131,12 +131,6 @@ button,
 select {
   text-transform: none;
 }
-button,
-[type=button],
-[type=reset],
-[type=submit] {
-  -webkit-appearance: button;
-}
 .btn-primary {
   color: #fff;
   background-color: #0085A1;
@@ -145,12 +139,10 @@ button,
 body {
   font-size: 1.25rem;
 }
-
 hr {
   background-color: #dee2e6;
   opacity: 1;
 }
-
 p {
   margin: 2rem 0;
 }
@@ -208,6 +200,7 @@ header.masthead {
   background-size: cover;
   background-attachment: scroll;
 }
+
 header.masthead:before {
   content: "";
   position: absolute;
