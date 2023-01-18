@@ -4,6 +4,7 @@ import json
 # from flask_mail import Mail
 # from waitress import serve 
 
+
 #for using local server 
 local_server= True
 with open('config.json', 'r') as c:
@@ -22,6 +23,7 @@ app = Flask(__name__)
 # )
 # mail= Mail(app)
 
+
 if(local_server):
     app.config['SQLALCHEMY_DATABASE_URI'] = params["local_uri"]
 else:
@@ -38,21 +40,41 @@ class Contacts(db.Model):
     phone_num = db.Column(db.String(10), unique=True, nullable=False)
     message = db.Column(db.String(50), unique=True, nullable=False)
 
+class Posts(db.Model):
+    # sno title content slug date
+    sno = db.Column(db.Integer, primary_key=True, nullable=False)
+    title = db.Column(db.String(50), unique=False, nullable=False)
+    content = db.Column(db.String(120), unique=False, nullable=False)
+    slug = db.Column(db.String(25), unique=True, nullable=False)
+    date = db.Column(db.String(50), unique=True, nullable=False)
+
+
 @app.route('/')
 def main():
     return render_template('index.html', params=params)
 
+
 @app.route('/index')
 def index():
-    return render_template('index.html', params=params, )
+    return render_template('index.html', params=params)
+
 
 @app.route('/about')
 def about():
     return render_template('about.html', params=params)
 
+
 @app.route('/post')
 def post():
     return render_template('post.html', params=params)
+
+
+@app.route("/post/<string:post_slug>", methods=['GET'])
+def blog_post(post_slug):
+    post= Posts.query.filter_by(slug=post_slug).first()
+    
+    return render_template('post.html', params=params, post=post)
+
 
 @app.route('/contact', methods=['GET', 'POST'])
 def contact():
@@ -64,10 +86,13 @@ def contact():
         doc_phone_num= request.form.get('phone_num')
         doc_message= request.form.get('message')
 
+        
         #storing data into variables from mysql
         entry= Contacts(name=doc_name, email=doc_email, phone_num=doc_phone_num, message=doc_message)
+        
         db.session.add(entry)
         db.session.commit()
+        
         # #sending message to email
         # mail.send_message('New message from Flask Blog from' + doc_name, 
         #                     sender=doc_email, 
