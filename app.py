@@ -44,25 +44,25 @@ class Posts(db.Model):
     # sno title content slug date
     sno = db.Column(db.Integer, primary_key=True, nullable=False)
     title = db.Column(db.String(50), unique=False, nullable=False)
+    sub_head = db.Column(db.String(180), unique=False, nullable=False)
     content = db.Column(db.String(120), unique=False, nullable=False)
     slug = db.Column(db.String(25), unique=True, nullable=False)
     date = db.Column(db.String(50), unique=True, nullable=False)
 
 
 @app.route('/')
-def main():
-    return render_template('index.html', params=params)
+def home():
+    return render_template('index.html', params=params, posts=post)
 
 
 @app.route('/index')
 def index():
-    return render_template('index.html', params=params)
+    return render_template('index.html', params=params, )
 
 
 @app.route('/about')
 def about():
     return render_template('about.html', params=params)
-
 
 @app.route('/post')
 def post():
