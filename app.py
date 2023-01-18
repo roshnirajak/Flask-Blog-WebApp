@@ -52,17 +52,14 @@ class Posts(db.Model):
 
 @app.route('/')
 def home():
+    post=Posts.query.filter_by().all()[0:params['no_of_params']]
     return render_template('index.html', params=params, posts=post)
-
-
-@app.route('/index')
-def index():
-    return render_template('index.html', params=params, )
 
 
 @app.route('/about')
 def about():
     return render_template('about.html', params=params)
+
 
 @app.route('/post')
 def post():
