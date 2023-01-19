@@ -1,4 +1,4 @@
-# Flask Blog Site
+# Flask Blog Web App
 This is a Blog website project.
 I've used Jinja and Flask-SQLAlchemy extension.
 Right now, all the data is coming from database, not the users.
