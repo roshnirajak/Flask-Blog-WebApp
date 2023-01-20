@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, session
 from flask_sqlalchemy import SQLAlchemy
 import json
 
@@ -13,6 +13,8 @@ with open('config.json', 'r') as c:
 
 blogName= params["blog_name"]
 app = Flask(__name__)
+app.secret_key = 'super-secret-key'
+
 
 # #mail
 # app.config.update(
@@ -100,9 +102,24 @@ def contact():
 
     return render_template('contact.html', params=params)
 
-@app.route('/sign-in')
-def sign_up():
-    return render_template('sign-in.html')
+@app.route('/dashboard', methods=['GET', 'POST'])
+def dashboard():
+
+    if('user' in session and session['user'] == params['admin_user']):
+        posts = Posts.query.all()
+        return render_template("dashboard.html", params=params, posts=posts)
+
+    elif(request.method=='POST'):
+        username= request.form.get('uname')
+        userpass= request.form.get('password')
+        if(username== params['admin_user'] and userpass== params['admin_password']):
+            session['user']=username
+            post=Posts.query.all()
+            return render_template("dashboard.html", params=params, posts=post)
+        elif(username!= params['admin_user'] or userpass!= params['admin_password']):
+            return render_template("sign-in.html")
+    else:
+        return render_template('sign-in.html')
 
 
 if __name__ == '__main__':

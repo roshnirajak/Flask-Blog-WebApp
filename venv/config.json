@@ -8,6 +8,8 @@
         "tw_uri":"https://twitter.com/concretewaII",
         "github_uri":"https://github.com/hff2",
         "blog_name": "Coding Thunder",
-        "no_of_params": 3
+        "no_of_params": 3,
+        "admin_user": "michael",
+        "admin_password": "fridge"
     }
 }
