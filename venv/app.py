@@ -100,5 +100,10 @@ def contact():
 
     return render_template('contact.html', params=params)
 
+@app.route('/sign-in')
+def sign_up():
+    return render_template('sign-in.html')
+
+
 if __name__ == '__main__':
     app.run(debug=True)
