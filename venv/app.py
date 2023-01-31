@@ -102,6 +102,7 @@ def contact():
 
     return render_template('contact.html', params=params)
 
+
 @app.route('/dashboard', methods=['GET', 'POST'])
 def dashboard():
 
@@ -120,6 +121,14 @@ def dashboard():
             return render_template("sign-in.html")
     else:
         return render_template('sign-in.html')
+
+
+@app.route('/edit/<string:sno>', methods=['GET', 'POST'])
+def edit():
+    if('user' in session and session['user'] == params['admin_user']):
+        if(request.method=='POST'):
+            doc_title=request.form.get['title']
+
 
 
 if __name__ == '__main__':
