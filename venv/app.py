@@ -1,3 +1,4 @@
+import datetime
 from flask import Flask, render_template, request, session
 from flask_sqlalchemy import SQLAlchemy
 import json
@@ -123,13 +124,23 @@ def dashboard():
         return render_template('sign-in.html')
 
 
-@app.route('/edit/<string:sno>', methods=['GET', 'POST'])
-def edit():
+@app.route("/edit/<string:sno>", methods=['GET', 'POST'])
+def edit(sno):
     if('user' in session and session['user'] == params['admin_user']):
         if(request.method=='POST'):
-            doc_title=request.form.get['title']
+            doc_title= request.form.get('title')
+            doc_subhead= request.form.get('sub-head')
+            doc_content= request.form.get('content')
+            doc_slug= request.form.get('slug')
+            date=datetime.now()
 
-
+            if(sno=='0'):
+                post= Posts(title=doc_title, sub_head=doc_subhead, content=doc_content, slug=doc_slug, date=date)
+                db.session.add(post)
+                db.session.commit()
+    
+    post = Posts.query.filter_by(sno=sno).first()
+    return render_template('edit.html', params=params, sno=sno)
 
 if __name__ == '__main__':
     app.run(debug=True)
