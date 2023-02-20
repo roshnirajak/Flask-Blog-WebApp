@@ -3,9 +3,11 @@
     <div class="container px-4 px-lg-5">
         <div class="row gx-4 gx-lg-5 justify-content-center">
             <div class="col-md-10 col-lg-8 col-xl-7">
-                
+                <div class="site-heading">
+                    <h1>Add/Edit Post</h1>
+                    </div>
                 <div class="my-5">
-                    <form id="contactForm" action="/edit/{{sno}}" data-sb-form-api-token="API_TOKEN" method="post">
+                    <form id="contactForm" action="/edit/{{post.sno}}" data-sb-form-api-token="API_TOKEN" method="post">
                         <div class="form-floating">
                             <input class="form-control" name="title" id="title" type="text"
                                 placeholder="Enter Title..." data-sb-validations="required" />
@@ -13,7 +15,7 @@
                             <div class="invalid-feedback" data-sb-feedback="name:required">A name is required.</div>
                         </div>
                         <div class="form-floating">
-                            <input class="form-control" name="sub_head" id="sub_head" type="text"
+                            <input class="form-control" name="sub-head" id="sub_head" type="text"
                                 placeholder="Enter sub-head..." data-sb-validations="required,email" />
                             <label for="email">sub-head</label>
                             <div class="invalid-feedback" data-sb-feedback="email:required">An email is required.</div>
