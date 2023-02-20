@@ -1,5 +1,5 @@
-import datetime
-from flask import Flask, render_template, request, session
+from datetime import datetime
+from flask import Flask, render_template, request, session, redirect
 from flask_sqlalchemy import SQLAlchemy
 import json
 
@@ -138,9 +138,18 @@ def edit(sno):
                 post= Posts(title=doc_title, sub_head=doc_subhead, content=doc_content, slug=doc_slug, date=date)
                 db.session.add(post)
                 db.session.commit()
+            else:
+                post = Posts.query.filter_by(sno=sno).first()
+                post.title=doc_title
+                post.sub_head=doc_subhead
+                post.content= doc_content
+                post.slug= doc_slug
+                post.date= date
+                db.session.commit()
+                return redirect('/edit/'+sno)
     
     post = Posts.query.filter_by(sno=sno).first()
-    return render_template('edit.html', params=params, sno=sno)
+    return render_template('edit.html', params=params, post=post)
 
 if __name__ == '__main__':
     app.run(debug=True)
