@@ -123,7 +123,6 @@ def dashboard():
     else:
         return render_template('sign-in.html')
 
-
 @app.route("/edit/<string:sno>", methods=['GET', 'POST'])
 def edit(sno):
     if('user' in session and session['user'] == params['admin_user']):
