@@ -1,47 +1,48 @@
 {% extends "layout.html" %} {% block body %}
 <!-- Page Header-->
 <header class="masthead"
-    style="background: url(https://melting-point.net/wp-content/uploads/2018/08/jeshoots-com-219386-unsplash.jpg); background-position: center; background-size: cover;">
-    <div class="container position-relative px-4 px-lg-5">
-        <div class="site-heading">
-            <h1>Admin Panel</h1>
-            <span class="subheading">A Blog Theme by Start Bootstrap</span>
-        </div>
+  style="background: url(https://melting-point.net/wp-content/uploads/2018/08/jeshoots-com-219386-unsplash.jpg); background-position: center; background-size: cover;">
+  <div class="container position-relative px-4 px-lg-5">
+    <div class="site-heading">
+      <h1>Admin Panel</h1>
+      <span class="subheading">A Blog Theme by Start Bootstrap</span>
     </div>
-    </div>
-    </div>
+  </div>
+  </div>
+  </div>
 </header>
 <!-- Main Content-->
 <div class="container px-4 px-lg-5">
-    <div class="row gx-4 gx-lg-5 justify-content-center">
-        <div class="col-md-10 col-lg-8 col-xl-7">
-            You're logged into Admin Page<br>
-            <a href="/edit/0"><button class="btn btn-primary">Add New Post</button></a>
-            <table class="table">
-                <thead>
-                  <tr>
-                    <th scope="col">Sno.</th>
-                    <th scope="col">Title</th>
-                    <th scope="col">Sub-head</th>
-                    <th scope="col">Edit</th>
-                    <th scope="col">Delete</th>
-                  </tr>
-                </thead>
-                <tbody>
+  <div class="row gx-4 gx-lg-5 justify-content-center">
+    <div class="col-md-10 col-lg-8 col-xl-7">
+      You're logged into Admin Page<br>
+      <a href="/edit/0"><button class="btn btn-primary">Add New Post</button></a>
+      <a href="/logout"><button class="btn btn-primary">Logout</button></a>
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">Sno.</th>
+            <th scope="col">Title</th>
+            <th scope="col">Sub-head</th>
+            <th scope="col">Edit</th>
+            <th scope="col">Delete</th>
+          </tr>
+        </thead>
+        <tbody>
 
-                  {% for post in posts %}
-                  <tr>
-                    <th scope="row">{{post.sno}}</th>
-                    <td>{{post.title}}</td>
-                    <td>{{post.sub_head}}</td>
-                    <td><a href="/edit/{{post.sno}}"><button>Edit</button></a></td>
-                    <td><button type="submit">Delete</button></td>
-                  </tr>
-                  {% endfor %}
+          {% for post in posts %}
+          <tr>
+            <th scope="row">{{post.sno}}</th>
+            <td>{{post.title}}</td>
+            <td>{{post.sub_head}}</td>
+            <td><a href="/edit/{{post.sno}}"><button>Edit</button></a></td>
+            <td><a href="/delete/{{post.sno}}"><button type="submit">elete</button></a></td>
+          </tr>
+          {% endfor %}
 
-                </tbody>
-              </table>
-        </div>
+        </tbody>
+      </table>
     </div>
+  </div>
 </div>
 {% endblock %}

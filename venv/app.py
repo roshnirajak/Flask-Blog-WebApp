@@ -2,6 +2,7 @@ from datetime import datetime
 from flask import Flask, render_template, request, session, redirect
 from flask_sqlalchemy import SQLAlchemy
 import json
+import math 
 
 # from flask_mail import Mail
 # from waitress import serve 
@@ -56,8 +57,39 @@ class Posts(db.Model):
 
 @app.route('/')
 def home():
-    post=Posts.query.filter_by().all()[0:params['no_of_params']]
-    return render_template('index.html', params=params, posts=post)
+    # Pagination Logic
+    # First 
+    #     prev: 0
+    #     next: page+1
+    # Middle
+    #     prev: page-1
+    #     next: page+1
+    # Last
+    #     prev: page-1
+    #     next: 0 
+    post=Posts.query.filter_by().all()
+    last= math.ceil(len(post)/int(params['no_of_params']))
+    #[0:params['no_of_params']]
+    
+    page= request.args.get('page')
+
+    
+    
+    if(not str(page).isnumeric()):
+        page=1
+    page=int(page)
+    post=post[(page-1)*int(params['no_of_params']):(page-1)*int(params['no_of_params'])+int(params['no_of_params'])]
+    if(page==1):
+        prev= '#'
+        next= '/?page='+ str(page+1)
+    elif(page==last):
+        prev= '/?page='+ str(page-1)
+        next= '#'
+    else:
+        prev= '/?page='+ str(page-1)
+        next= '/?page='+ str(page+1)
+
+    return render_template('index.html', params=params, posts=post, prev=prev, next=next)
 
 
 @app.route('/about')
