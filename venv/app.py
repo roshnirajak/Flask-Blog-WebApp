@@ -1,11 +1,9 @@
-from datetime import datetime
+from flask import Flask
 from flask import Flask, render_template, request, session, redirect
 from flask_sqlalchemy import SQLAlchemy
 import json
-import math 
-
-# from flask_mail import Mail
-# from waitress import serve 
+from datetime import datetime
+import math
 
 
 #for using local server 
@@ -18,32 +16,14 @@ app = Flask(__name__)
 app.secret_key = 'super-secret-key'
 
 
-# #mail
-# app.config.update(
-#     MAIL_SERVER ='smtp.gmail.com',
-#     MAIL_PORT= "465",
-#     MAIL_USE_SSL=True,
-#     MAIL_USERNAME=params["gmail_uname"],
-#     MAIL_PASSWORD=params["password"]
-# )
-# mail= Mail(app)
-
-
 if(local_server):
     app.config['SQLALCHEMY_DATABASE_URI'] = params["local_uri"]
 else:
     #in my project local server is same as production server
     app.config['SQLALCHEMY_DATABASE_URI'] = params["prod_uri"]
 
-db= SQLAlchemy(app)
 
-class Contacts(db.Model):
-    # sno name email phone_num message
-    sno = db.Column(db.Integer, primary_key=True, nullable=False)
-    name = db.Column(db.String(20), unique=False, nullable=False)
-    email = db.Column(db.String(50), unique=False, nullable=False)
-    phone_num = db.Column(db.String(10), unique=True, nullable=False)
-    message = db.Column(db.String(50), unique=True, nullable=False)
+db= SQLAlchemy(app)
 
 class Posts(db.Model):
     # sno title content slug date
@@ -55,14 +35,16 @@ class Posts(db.Model):
     date = db.Column(db.String(50), unique=True, nullable=False)
 
 
+class Contacts(db.Model):
+    # sno name email phone_num message
+    sno = db.Column(db.Integer, primary_key=True, nullable=False)
+    name = db.Column(db.String(20), unique=False, nullable=False)
+    email = db.Column(db.String(50), unique=False, nullable=False)
+    phone_num = db.Column(db.String(10), unique=True, nullable=False)
+    message = db.Column(db.String(50), unique=True, nullable=False)
+
 @app.route('/')
 def home():
-    # Pagination Logic
-    # First 
-    #     prev: 0
-    #     next: page+1
-    # Middle
-    #     prev: page-1
     #     next: page+1
     # Last
     #     prev: page-1
@@ -91,49 +73,10 @@ def home():
 
     return render_template('index.html', params=params, posts=post, prev=prev, next=next)
 
-
-@app.route('/about')
-def about():
-    return render_template('about.html', params=params)
-
-
-@app.route('/post')
-def post():
-    return render_template('post.html', params=params)
-
-
-@app.route("/post/<string:post_slug>", methods=['GET'])
-def blog_post(post_slug):
-    post= Posts.query.filter_by(slug=post_slug).first()
-    
-    return render_template('post.html', params=params, post=post)
-
-
-@app.route('/contact', methods=['GET', 'POST'])
-def contact():
-    
-    #catching data from html doc
-    if request.method=='POST':
-        doc_name= request.form.get('fname')
-        doc_email= request.form.get('email')
-        doc_phone_num= request.form.get('phone_num')
-        doc_message= request.form.get('message')
-
-        
-        #storing data into variables from mysql
-        entry= Contacts(name=doc_name, email=doc_email, phone_num=doc_phone_num, message=doc_message)
-        
-        db.session.add(entry)
-        db.session.commit()
-        
-        # #sending message to email
-        # mail.send_message('New message from Flask Blog from' + doc_name, 
-        #                     sender=doc_email, 
-        #                     recipients=[params["gmail_uname"]],
-        #                     body=doc_message + "\m" + doc_phone_num,
-        # )
-
-    return render_template('contact.html', params=params)
+@app.route('/post/<string:post_slug>', methods=['GET'])
+def post(post_slug):
+    post=Posts.query.filter_by(slug=post_slug).first()
+    return render_template('post.html', params=params, posts=post)
 
 
 @app.route('/dashboard', methods=['GET', 'POST'])
@@ -151,9 +94,10 @@ def dashboard():
             post=Posts.query.all()
             return render_template("dashboard.html", params=params, posts=post)
         elif(username!= params['admin_user'] or userpass!= params['admin_password']):
-            return render_template("sign-in.html")
+            return render_template("signin.html")
     else:
-        return render_template('sign-in.html')
+        return render_template('signin.html')
+
 
 @app.route("/edit/<string:sno>", methods=['GET', 'POST'])
 def edit(sno):
@@ -182,6 +126,7 @@ def edit(sno):
     post = Posts.query.filter_by(sno=sno).first()
     return render_template('edit.html', params=params, post=post)
 
+
 @app.route("/delete/<string:sno>", methods=['GET', 'POST'])
 def delete(sno):
     if('user' in session and session['user'] == params['admin_user']):
@@ -195,5 +140,29 @@ def logout():
     session.pop('user')
     return redirect('/dashboard')
 
-if __name__ == '__main__':
-    app.run(debug=True)
+
+@app.route('/about')
+def about():
+    return render_template('about.html')
+
+
+@app.route('/contact', methods=['GET', 'POST'])
+def contact():
+    
+    #catching data from html doc
+    if request.method=='POST':
+        doc_name= request.form.get('fname')
+        doc_email= request.form.get('email')
+        doc_phone_num= request.form.get('phone_num')
+        doc_message= request.form.get('message')
+
+        
+        #storing data into variables from mysql
+        entry= Contacts(name=doc_name, email=doc_email, phone_num=doc_phone_num, message=doc_message)
+        
+        db.session.add(entry)
+        db.session.commit()
+
+    return render_template('contact.html', params=params)
+
+

@@ -8,7 +8,7 @@ if defined _OLD_CODEPAGE (
     "%SystemRoot%\System32\chcp.com" 65001 > nul
 )
 
-set VIRTUAL_ENV=E:\Python_Projects\Flask_Blog_Site\venv
+set VIRTUAL_ENV=E:\Blog-App\venv
 
 if not defined PROMPT set PROMPT=$P$G
 

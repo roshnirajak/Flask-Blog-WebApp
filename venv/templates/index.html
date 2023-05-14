@@ -1,43 +1,41 @@
 {% extends "layout.html" %} {% block body %}
-<!-- Page Header-->
-<header class="masthead"
-    style="background: url(https://melting-point.net/wp-content/uploads/2018/08/jeshoots-com-219386-unsplash.jpg); background-position: center; background-size: cover;">
-    <div class="container position-relative px-4 px-lg-5">
-        <div class="site-heading">
-            <h1>{{params["blog_name"]}}</h1>
-            <span class="subheading">A Blog Theme by Start Bootstrap</span>
-        </div>
-    </div>
-    </div>
-    </div>
-</header>
-<!-- Main Content-->
-<div class="container px-4 px-lg-5">
-    <div class="row gx-4 gx-lg-5 justify-content-center">
-        <div class="col-md-10 col-lg-8 col-xl-7">
-            <!-- Post preview-->
-            <div class="post-preview">
-                {% for post in posts %}
+<section id="hero" class="d-flex align-items-center">
 
-                <a href="/post/{{post.slug}}">
-                    <h2 class="post-title">{{post.title[0:20]}}..</h2>
-                    <h3 class="post-subtitle">{{post.sub_head}}</h3>
-                </a>
-                <p class="post-meta">
-                    Posted by
-                    <a href="#!">Start Bootstrap</a>
-                    on {{post.date}}
-                </p>
-                {% endfor %}
-            </div>
-            <!-- Divider-->
-            <hr class="my-4" />
-            <!-- Pager-->
-            <div class="d-flex justify-content-end mb-4">
-                <a class="btn btn-primary float-left" href="{{prev}}">←Previous Posts</a>
-                <a class="btn btn-primary float-right" href="{{next}}">New Posts→</a>
-            </div>
-        </div>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-6 pt-4 pt-lg-0 order-2 order-lg-1 d-flex flex-column justify-content-center">
+        <h1>{{params['blog_name']}}</h1>
+        <h2>Accusantium quam, aliquam ultricies eget tempor id, aliquam eget nibh et. Maecen aliquam,
+          risus at semper. Proin iaculis purus consequat sem cure digni ssim. Donec porttitora entum.</h2>
+        <div><a href="#about" class="btn-get-started scrollto">Get Started</a></div>
+      </div>
+      <div class="col-lg-6 order-1 order-lg-2 hero-img">
+        <img src="{{url_for('static', filename='assets/hero-img.png')}}" class="img-fluid" alt="">
+      </div>
     </div>
+  </div>
+
+</section>
+<div>
+{% for post in posts %}
+<div class="container" style="margin-top:20px;">
+  <div class="row">
+    <a href="/post/{{post.slug}}">
+      <div class="col-lg-6 pt-4 pt-lg-0 order-2 order-lg-1 d-flex flex-column justify-content-center">
+        <h2><b>{{post.title}}</h2>
+
+        <h4>{{post.sub_head}}</h4>
+        <h5>{{post.content[0:30]}}...</h5>
+      </div>
+    </a>
+  </div>
 </div>
+{% endfor %}
+</div>
+
+<div class="container" style="margin-top:20px;">
+  <a href="{{prev}}"><button type="submit">Previous</button></a>
+  <a href="{{next}}" style="padding-left: 50px;"><button type="submit">Next</button></a>
+</div>
+
 {% endblock %}

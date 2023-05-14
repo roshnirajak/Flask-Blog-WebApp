@@ -2,12 +2,12 @@
     "params":
     {
         "local_server":"True",
-        "local_uri": "mysql://root:@localhost/codingthunder",
-        "prod_uri": "mysql://root:@localhost/codingthunder",
+        "local_uri": "mysql://root:@localhost/db_blog",
+        "prod_uri": "mysql://root:@localhost/db_blog",
         "fb_uri":"https://www.facebook.com/phoebe.suresh.7",
         "tw_uri":"https://twitter.com/concretewaII",
         "github_uri":"https://github.com/hff2",
-        "blog_name": "Coding Thunder",
+        "blog_name": "FLASK BLOG WEBAPP",
         "no_of_params": 3,
         "admin_user": "michael",
         "admin_password": "fridge"
