@@ -73,5 +73,3 @@ Edit Post Page
 ![Web App Edit Page Screenshot](/venv/edit.png)
 Admin Login
 ![Web App Login Screenshot](/venv/login.png)
-
-Feel free to customize this README to fit the specific details of your project. Provide clear instructions for setting up and using your web app, and don't forget to update the placeholders with your actual project information and links. Good luck with your project!
